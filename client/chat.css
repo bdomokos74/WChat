@@ -1,0 +1,64 @@
+.contentBg {
+    background: white;
+    color: #c8c9c3;
+    width: 100%;
+}
+
+.formContainer {
+    width: 240px;
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 15px;
+    color: #7A7A6F;
+}
+
+.dataFormField {
+    margin-left: 20px;
+    font-size: 14px;
+    border: solid 1px #8980CA;
+    background: white;
+    height: 40px;
+    width: 170px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+button.dataFormField {
+    color: white;
+    box-sizing: content-box;
+    cursor: pointer;
+}
+
+.msgBox {
+    height: 150px;
+}
+.chatStyle .dataFormField {
+    border: solid 1px #F09938 !important;
+    width: 255px;
+}
+
+.chatStyle button.dataFormField {
+    background: #F09938 !important;
+}
+
+.friendStyle {
+    border: solid 1px #8980CA !important;
+    width: 255px;
+}
+
+.friendList {
+    padding: 0px;
+    margin: 10px;
+}
+.friendList li {
+    list-style: none;
+    color: black;
+}
+
+.friendList li.selected {
+    background-color: #8980CA;
+    color: white;
+}
