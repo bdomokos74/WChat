@@ -62,3 +62,20 @@ button.dataFormField {
     background-color: #8980CA;
     color: white;
 }
+
+.hidden {
+    visibility: hidden;
+}
+
+.incomingEvent {
+    font-weight: bold;
+}
+
+.nick {
+    color: cornflowerblue;
+    font-weight: bold;
+}
+.mynick {
+    color: darkgreen;
+    font-weight: bold;
+}

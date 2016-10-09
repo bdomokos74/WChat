@@ -3,26 +3,31 @@
 <html>
 <head>
     <link href="chat.css" rel="stylesheet"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="jquery.min.js"></script>
     <script src="chat.js"></script>
 </head>
+
 <div class="contentBg">
     <div class="formContainer">
-        <div class="friendStyle">
-            <ul class="friendList">
-                <li>abc</li>
-                <li>def</li>
-                <li class="selected">ghi</li>
-                <li>bali</li>
+        <div id="chatListContainer" class="friendStyle hidden">
+            <ul id="chatList" class="friendList">
+                <li class="selected">All</li>
+            </ul>
+        </div>
+        <br/>
+        <div id="friendListContainer" class="friendStyle hidden">
+            <ul id="friendList" class="friendList">
+
             </ul>
         </div>
     </div>
 
     <div class="formContainer">
         <div class="chatStyle">
-            <input class="dataFormField" type="text" id="uname" placeholder="Enter your name" />
-            <textarea class="dataFormField msgBox" id="msg" placeholder="Message..." disabled></textarea>
-            <button class="dataFormField" id="sendButton" disabled>Send</button>
+            <input class="dataFormField incomingEvent" type="text" id="uname" placeholder="Enter your name" />
+            <div class="dataFormField msgBox hidden" id="conversation" disabled></div>
+            <input class="dataFormField hidden" type="text" id="msgToSend" placeholder="Enter message..."/>
+            <button class="dataFormField hidden" id="sendButton">Send</button>
         </div>
     </div>
 </div>
