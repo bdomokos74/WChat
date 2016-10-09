@@ -7,6 +7,19 @@ window.onload = function() {
             chatConnect($("#uname").val())
         }
     });
+    $("#signoff").on( 'click', function(evt) {
+        $("#uname").removeClass('selected');
+        $("#uname").attr('disabled', false);
+        $("#msgToSend").addClass('hidden');
+        $("#conversation").addClass('hidden');
+        $("#sendButton").addClass('hidden');
+        $("#chatListContainer").addClass('hidden');
+        $("#friendListContainer").addClass('hidden');
+        let msg = {cmd: 'SIGNOFF'};
+        msg['name'] = $("#uname").val();
+        $("#uname").val('');
+        ws.send(JSON.stringify(msg));
+    });
     $("#sendButton").on( 'click', function(evt) {
         cmd = {cmd: 'MSG'};
         cmd['name'] = $("#uname").val();
@@ -54,16 +67,25 @@ window.onload = function() {
                     $("#friendListContainer").removeClass('hidden');
                 }
             } else if(msg.cmd==="MSG") {
-                console.log("msg: "+msg.msg);
                 let msgElem = $("<div>");
                 msgElem.append($("<span>", {"class": "nick"}).html(msg.name+": ")).
                     append($("<span>").html(msg.msg));
                 $("#conversation").append(msgElem);
+            } else if(msg.cmd==="SIGNON") {
+                let elem = $("<li>", {'data-nick': msg.name});
+                elem.html(msg.name);
+                $("#friendList").append(elem);
+                $("#friendListContainer").removeClass('hidden');
+            }  else if(msg.cmd==="SIGNOFF") {
+                $("#friendList li[data-nick="+msg.name+"]").remove();
+                if($("#friendList li").size()===0) {
+                    $("#friendListContainer").addClass('hidden');
+                }
             }
 
         };
         ws.onclose = function () {
-            log("[WebSocket#onclose]\n");
+            console.log("[WebSocket#onclose]\n");
             ws = null;
         }
     }

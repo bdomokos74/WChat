@@ -64,6 +64,7 @@ public class ChatServer extends WebSocketServer {
                 System.out.println(name + " joined");
                 UserData userData = new UserData(name);
                 WebSocket oldConn = users.get(userData);
+                StringBuilder sb;
                 if (oldConn!=null) {
                     System.out.println("warning: "+name+" reconnecting");
                     synchronized (availLock) {
@@ -77,6 +78,12 @@ public class ChatServer extends WebSocketServer {
                         connections.put(conn, userData);
                         users.put(userData, conn);
                     }
+                    Map<String, Object> signonCmd = new HashMap<>();
+                    signonCmd.put("cmd", "SIGNON");
+                    signonCmd.put("name", name);
+                    sb = new StringBuilder();
+                    JSONGenerator.traverseObjects(signonCmd, sb, false);
+                    sendToAll(name, sb.toString());
                 }
 
                 Map<String, Object> onlineCmd = new HashMap<>();
@@ -86,9 +93,11 @@ public class ChatServer extends WebSocketServer {
                 if (online.size() > 0) {
                     onlineCmd.put("names", online);
                 }
-                StringBuilder sb = new StringBuilder();
+                sb = new StringBuilder();
                 JSONGenerator.traverseObjects(onlineCmd, sb, true);
                 conn.send(sb.toString());
+
+
                 break;
             }
             case "MSG": {
@@ -105,7 +114,28 @@ public class ChatServer extends WebSocketServer {
 
                 break;
             }
-            case "LST":
+            case "SIGNOFF":
+                String name = (String) msg.get("name");
+
+                UserData userData = new UserData(name);
+                WebSocket oldConn = users.get(userData);
+                if (oldConn == null) {
+                    System.out.println("warning: "+name+" was not online");
+                    return;
+                }
+
+                synchronized (availLock) {
+                    connections.remove(oldConn);
+                    users.remove(userData);
+                }
+                oldConn.close();
+
+                Map<String, Object> signOffCmd = new HashMap<>();
+                signOffCmd.put("cmd", "SIGNOFF");
+                signOffCmd.put("name", name);
+                StringBuilder sb = new StringBuilder();
+                JSONGenerator.traverseObjects(signOffCmd, sb, false);
+                sendToAll(name, sb.toString());
 
                 break;
             default:

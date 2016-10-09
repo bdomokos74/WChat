@@ -3,7 +3,14 @@
     color: #c8c9c3;
     width: 100%;
 }
+.header {
+    height: 20px;
+    color: black;
+}
 
+.headerButton {
+    cursor: pointer;
+}
 .formContainer {
     width: 240px;
     float: left;
