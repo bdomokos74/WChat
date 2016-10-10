@@ -4,6 +4,7 @@ import com.codesnippets4all.json.parsers.JSONParser;
 import com.codesnippets4all.json.parsers.JsonParserFactory;
 import org.java_websocket.WebSocket;
 import org.java_websocket.WebSocketImpl;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
@@ -214,7 +215,12 @@ public class ChatServer extends WebSocketServer {
         Set<Map.Entry<WebSocket, UserData>> entries = connections.entrySet();
         for (Map.Entry<WebSocket, UserData> entry : entries) {
             if (!entry.getValue().getName().equals(from)) {
-                entry.getKey().send(msg);
+                try {
+                    entry.getKey().send(msg);
+                } catch (WebsocketNotConnectedException notConnEx) {
+                    System.out.println("warn: "+entry.getValue().getName()+" got disconnected");
+                    // TODO remove connection
+                }
             }
         }
     }
